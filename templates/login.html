@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login</title>
+  <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script><!--QJuery-->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+  <section>
+    <img class="small_icon" src="https://cdn0.iconfinder.com/data/icons/kameleon-free-pack-rounded/110/Key-256.png"
+    alt="error">
+    <h3>Login Into Library </h3>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="flashMessage">
+      <h5>{{ message }}</h5>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="secretDiv"></div>
+    <form class="authorize" action="/login" method="post">
+      <div class="form-group">
+        <input type="email" name="email" class="form-control" id="email" aria-describedby="emailHelp"
+          placeholder="Email" />
+        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+      </div>
+      <div class="form-group">
+        <input type="password" name="pwd" class="form-control" id="pwd" placeholder="Password" />
+      </div>
+      <button type="submit" class="btn btn-dark wide_btn">Login</button>
+    </form>
+    <a href="{{ url_for('signup') }}">I don't have an account.</a>
+  </section>
+</body>
+
+</html>

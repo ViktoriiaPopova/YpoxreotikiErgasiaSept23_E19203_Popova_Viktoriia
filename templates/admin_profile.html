@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script><!--QJuery-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body style="background-color:white;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <button class="btn btn-dark"><a href="/logout">Log out</a></button><span>|</span>
+            <button class="btn btn-success"><a href="{{ url_for('admin_add_new_books') }}">Add New Book</a></button>
+        </nav>
+    </header>
+    <section style="margin-top: 20px;">
+        <h4>Books In Library Of Piraeus<img class="small_icon"
+                src="https://cdn3.iconfinder.com/data/icons/solid-locations-icon-set/64/LIBRARY_2-256.png" alt="error">
+        </h4>
+        <div class="searchBar">
+            <form action="/admin_show_book_search_result" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control searchInput" placeholder="Title" name="title"
+                        aria-describedby="basic-addon2">
+                    <input type="text" class="form-control searchInput" placeholder="Author" name="author"
+                        aria-describedby="basic-addon2">
+                    <input type="text" class="form-control searchInput" placeholder="ISBN" name="isbn"
+                        aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <form action="post" class="secretDiv">
+            <input type="text" id="be_land" placeholder="New Duration">
+            <input type="submit" class="btn btn-success" value="Update">
+        </form>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="flashMessage">
+            <h5>{{ message }}</h5>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <table class="table" style="width:90%; border-radius:15px;">
+            <thead>
+                <tr>
+                    <th scope='col'>ISBN</th>
+                    <th scope='col'>Title</th>
+                    <th scope='col'>Author</th>
+                    <th scope='col'>Description</th>
+                    <th scope='col'>Borrow days</th>
+                    <th scope='col'>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in book %}
+                <tr>
+                    <td>{{ book._id }}</td>
+                    <td class="small_description_td">{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td class="midium_description_td">{{ book.description }}</td>
+                    <td>{{ book.be_land }}</td>
+                    <td>
+                        <button value="{{book._id}}" class="btn btn-dark updateBorrowDay"><a>Update Borrow
+                                Day</a></button>
+                        <button class="btn btn-danger"><a class="linkInsideBtn"
+                                href="{{ url_for('admin_delete_book' , id = book._id ) }}"> Delete
+                                Book</a></button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    <script>
+        $(document).ready(function () {
+            $('.updateBorrowDay').on('click', function (e) {
+                $('.secretDiv').show();
+                id = $(this).attr('value');
+            });
+            $('form').on('submit', function (e) {
+                $.ajax({
+                    data: {
+                        id: id,
+                        be_land: $('#be_land').val(),
+                    },
+                    type: 'POST',
+                    url: '/admin_update_borrow_day'
+                })
+                    .done(function (data) {
+                        $('.secretDiv').text(data.output).show();
+                        setTimeout(function () { location.reload(); }, 2000);
+                    });
+                e.preventDefault();
+            });
+        });
+    </script>
+</body>
+
+</html>

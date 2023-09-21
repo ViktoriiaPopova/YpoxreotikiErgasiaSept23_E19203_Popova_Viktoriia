@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Book information</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script><!--QJuery-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body style="background-color: white;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <button class="btn btn-dark"><a href="/logout">Log out</a></button><span>|</span>
+            <button class="btn btn-dark"><a href="{{ url_for('admin_profile') }}">Back</a></button>
+        </nav>
+    </header>
+    <section style="margin: 50px;">
+        <h4>{{book.title}} - {{ book.author}} <img class="small_icon"
+                src="https://cdn3.iconfinder.com/data/icons/solid-locations-icon-set/64/LIBRARY_2-256.png" alt="error">
+        </h4>
+        {%if book.isAvailable == "No" %}
+        <p>Boorowed by: {{ user.name }}</p>
+        <p>Contant phone: {{ user.contact_phone }}</p>
+        <p>Email:{{ user.email }}</p>
+        {% endif %}
+        <table class="table" style="width:90%; border-radius:15px;">
+            <thead>
+                <tr>
+                    <th scope='col'>ISBN</th>
+                    <th scope='col'>Title</th>
+                    <th scope='col'>Author</th>
+                    <th scope='col'>Published year</th>
+                    <th scope='col'>Total pages</th>
+                    <th scope='col'>Days to land</th>
+                    <th scope='col'>Description</th>
+                    <th scope='col'>Available</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ book._id }}</td>
+                    <td>{{ book.title }}</td>
+                    <td class="small_description_td">{{ book.author }}</td>
+                    <td>{{ book.year }}</td>
+                    <td>{{ book.page_number }}</td>
+                    <td>{{ book.be_land }}</td>
+                    <td class="midium_description_td">{{ book.description }}</td>
+                    <td>{{ book.isAvailable }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+
+</html>

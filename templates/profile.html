@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script><!--QJuery-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body style="background-color:white;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <h4>Hello, {{user.name }}!</h4><span>|</span>
+            <button class="btn btn-dark"><a href="/logout">Log out</a></button><span>|</span>
+            <button class="btn btn-danger"><a href="/delete_my_profile">Delete profile</a></button>
+        </nav>
+    </header>
+    <section style="margin-top: 50px;">
+        <h4>Find Book In Piraeus Library <img class="small_icon"
+                src="https://cdn1.iconfinder.com/data/icons/seo-and-web-development-6/32/development_search_magnifier_magnifying_glass_loupe-67-256.png"
+                alt="error"></h4>
+        <div class="searchBar">
+            <form action="/search_book_result" method="post">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control searchInput" placeholder="Title" name="title"
+                        aria-describedby="basic-addon2">
+                    <input type="text" class="form-control searchInput" placeholder="Author" name="author"
+                        aria-describedby="basic-addon2">
+                    <input type="text" class="form-control searchInput" placeholder="Publication year" name="year"
+                        aria-describedby="basic-addon2">
+                    <input type="text" class="form-control searchInput" placeholder="ISBN" name="isbn"
+                        aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-dark" type="submit">Search</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <table class="table" style="width:90%; border-radius:15px;">
+            <h4>Borrowed Books From Library <img class="small_icon"
+                    src="https://cdn3.iconfinder.com/data/icons/solid-locations-icon-set/64/LIBRARY_2-256.png"
+                    alt="error"></h4>
+            <thead>
+                <tr>
+                    <th scope='col'>ISBN</th>
+                    <th scope='col'>Title</th>
+                    <th scope='col'>Author to</th>
+                    <th scope='col'>Published year</th>
+                    <th scope='col'>Borrowed</th>
+                    <th scope='col'>Should be returned</th>
+                    <th scope='col'>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for reservation in reservation %}
+                <tr>
+                    <td>{{ reservation.id_book }}</td>
+                    <td>{{ reservation.title }}</td>
+                    <td>{{ reservation.author }}</td>
+                    <td>{{ reservation.year }}</td>
+                    <td>{{ reservation.land_start }}</td>
+                    <td>{{ reservation.land_end }}</td>
+                    <td>
+                        <button class="btn btn-dark">
+                            <a class="linkInsideBtn"
+                                href="{{ url_for('return_borrowed_book' , id = reservation._id ) }}">Return To Library</a>
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</body>
+
+</html>

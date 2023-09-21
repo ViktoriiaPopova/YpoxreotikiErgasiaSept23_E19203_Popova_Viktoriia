@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Book information</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script><!--QJuery-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body style="background-color: white;">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white">
+            <button class="btn btn-dark"><a href="/logout">Log out</a></button><span>|</span>
+            <button class="btn btn-dark"><a href="{{ url_for('profile') }}">Back</a></button>
+        </nav>
+    </header>
+    <section style="margin: 50px;">
+        <h4>{{book.title}} - {{ book.author}}</h4>
+        <h4>Availability: {{book.isAvailable}}</h4>
+        <table class="table" style="width:90%; border-radius:15px;">
+            <thead>
+                <tr>
+                    <th scope='col'>ISBN</th>
+                    <th scope='col'>Title</th>
+                    <th scope='col'>Author</th>
+                    <th scope='col'>Published year</th>
+                    <th scope='col'>Availability</th>
+                    <th scope='col'>Borrow for</th>
+                    <th scope='col'>Description</th>
+                    <th scope='col'>Options</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ book._id }}</td>
+                    <td class="small_description_td">{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.year }}</td>
+                    <td>{{ book.isAvailable }}</td>
+                    <td>{{ book.be_land }}</td>
+                    <td class="midium_description_td">{{ book.description }}</td>
+                    <td>
+                        {% if book.isAvailable == "No" %}
+                        <p>Wait for updates</p>
+                        {% else %}
+                        <button class="btn btn-success">
+                            <a class="linkInsideBtn" href="{{ url_for('borrow_book' , id = book._id ) }}">Borrow</a>
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+
+</html>

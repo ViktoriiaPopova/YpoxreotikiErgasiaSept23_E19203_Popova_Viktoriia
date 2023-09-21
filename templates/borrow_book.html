@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Book lending</title>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script><!--QJuery-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/static/style.css" />
+</head>
+
+<body>
+    <section>
+        <h3>Borrow A Book</h3>
+        <a href="{{ url_for('profile') }}">Go Back To My Profile</a>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="flashMessage">
+            <h5>{{ message }}</h5>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <form class="authorize" action="/submit_book_borrow" method="post" style="width: 40%;">
+            <div class="form-group">
+                <!-- <label for="id_book">Book Id:</label> -->
+                <input type="hidden" class="form-control" value="{{book._id}}" name="id_book" />
+            </div>
+            <div class="form-group">
+                <!-- <label for="id_user">User Id:</label> -->
+                <input type="hidden" class="form-control" value="{{book.be_land}}" name="be_land" />
+            </div>
+            <div class="form-group">
+                <!-- <label for="id_user">User Id:</label> -->
+                <input type="hidden" class="form-control" value="{{book.title}}" name="title" />
+            </div>
+            <div class="form-group">
+                <!-- <label for="id_user">User Id:</label> -->
+                <input type="hidden" class="form-control" value="{{book.author}}" name="author" />
+            </div>
+            <div class="form-group">
+                <!-- <label for="id_user">User Id:</label> -->
+                <input type="hidden" class="form-control" value="{{book.year}}" name="year" />
+            </div>
+            <div class="form-group">
+                <!-- <label for="id_user">User Id:</label> -->
+                <input type="hidden" class="form-control" value="{{user._id}}" name="id_user" />
+            </div>
+            <div class="form-group">
+                <label for="name">User's name:</label>
+                <input type="text" class="form-control" value="{{user.name}}" name="name" readonly />
+            </div>
+            <div class="form-group">
+                <label for="surname">User's surname:</label>
+                <input type="text" class="form-control" value="{{user.surname}}" name="surname" readonly />
+            </div>
+            <div class="form-group">
+                <label for="email">User's email:</label>
+                <input type="text" class="form-control" name="email" value="{{user.email}}" readonly />
+            </div>
+            <div class="form-group">
+                <label for="contact_phone">Contact phone:</label>
+                <input type="tel" class="form-control" name="contact_phone" required />
+            </div>
+            <button type="submit" class="btn btn-success wide_btn">Borrow</button>
+        </form>
+    </section>
+</body>
+
+</html>
